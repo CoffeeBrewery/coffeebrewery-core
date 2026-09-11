@@ -21,6 +21,11 @@ class DartSdk < Formula
   uses_from_macos "python" => :build
   uses_from_macos "xz" => :build
 
+  # TODO: Remove once bundled clang rolls past LLVM #222721 (arm64e.x1 in macOS 27 SDK)
+  on_golden_gate :or_newer do
+    depends_on "lld" => :build
+  end
+
   # always pull the latest commit from https://chromium.googlesource.com/chromium/tools/depot_tools.git/+/refs/heads/main
   resource "depot-tools" do
     url "https://chromium.googlesource.com/chromium/tools/depot_tools.git",
@@ -44,6 +49,9 @@ class DartSdk < Formula
 
     chdir "sdk" do
       arch = Hardware::CPU.arm? ? "arm64" : "x64"
+      if OS.mac? && MacOS.version >= :golden_gate
+        ln_sf formula_opt_bin("lld")/"ld64.lld", "buildtools/mac-#{arch}/clang/bin/ld64.lld"
+      end
       system "./tools/build.py", "--mode=release", "--arch=#{arch}", "create_sdk"
       out = OS.linux? ? "out" : "xcodebuild"
       libexec.install Dir["#{out}/Release#{arch.upcase}/dart-sdk/*"]
