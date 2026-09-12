@@ -1,8 +1,8 @@
 class Temporal < Formula
   desc "Command-line interface for running and interacting with Temporal Server and UI"
   homepage "https://temporal.io/"
-  url "https://github.com/temporalio/cli/archive/refs/tags/v1.8.3.tar.gz"
-  sha256 "14280dbc5f157373a2b34d7d333dd0c8f1b8506fa9ff5b332edc9048527af6f8"
+  url "https://github.com/temporalio/cli/archive/refs/tags/v1.9.0.tar.gz"
+  sha256 "5f404299116e76f558ff28a901a9aa9ee087e3794e82fca607bf5be743d9adb7"
   license "MIT"
   head "https://github.com/temporalio/cli.git", branch: "main"
 
